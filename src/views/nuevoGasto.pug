@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  h2 Nuevo Gasto
+
+  form(method="POST", action="/gastos")
+
+    label Obra ID:
+    input(type="number", name="obraId")
+
+    br
+    br
+
+    label Concepto:
+    input(type="text", name="concepto")
+
+    br
+    br
+
+    label Monto:
+    input(type="number", name="monto")
+
+    br
+    br
+
+    label Fecha:
+    input(type="date", name="fecha")
+
+    br
+    br
+
+    label Medio de pago:
+    select(name="medioPago")
+      option(value="cheque") Cheque
+      option(value="transferencia") Transferencia
+
+    br
+    br
+
+    button(type="submit") Guardar

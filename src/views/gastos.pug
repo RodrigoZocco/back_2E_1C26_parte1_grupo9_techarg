@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h2 Lista de Gastos
+
+  table(border="1")
+    tr
+      th ID
+      th Obra ID
+      th Concepto
+      th Monto
+      th Fecha
+      th Medio de pago
+
+    each gasto in gastos
+      tr
+        td= gasto.id
+        td= gasto.obraId
+        td= gasto.concepto
+        td= gasto.monto
+        td= gasto.fecha
+        td= gasto.medioPago

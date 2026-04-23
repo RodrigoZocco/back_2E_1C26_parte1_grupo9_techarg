@@ -1,5 +1,18 @@
 const express = require("express");
-// Este router permite definir rutas en un archivo separado del servidor principal
+
 const router = express.Router();
+
+const {
+  listarGastos,
+  crearGasto,
+  vistaGastos,
+  vistaNuevoGasto,
+} = require("../controllers/gastosController");
+
+router.get("/vista", vistaGastos);
+router.get("/nuevo", vistaNuevoGasto);
+
+router.get("/", listarGastos);
+router.post("/", crearGasto);
 
 module.exports = router;
