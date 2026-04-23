@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h2 Nueva Obra
+
+  form(method="POST", action="/obras")
+
+    label Nombre:
+    input(type="text", name="nombre")
+
+    br
+    br
+
+    label Director:
+    input(type="text", name="director")
+
+    br
+    br
+
+    label Presupuesto:
+    input(type="number", name="presupuestoTotal")
+
+    br
+    br
+
+    button(type="submit") Guardar

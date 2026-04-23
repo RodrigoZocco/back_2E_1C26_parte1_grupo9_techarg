@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h2 Lista de Obras
+
+  table(border="1")
+    tr
+      th ID
+      th Nombre
+      th Director
+      th Presupuesto
+      th Acciones
+
+    each obra in obras
+      tr
+        td= obra.id
+        td= obra.nombre
+        td= obra.director
+        td= obra.presupuestoTotal
+        td
+          a(href=`/obras/${obra.id}/vista`) Ver

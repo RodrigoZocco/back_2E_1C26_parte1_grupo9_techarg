@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h2 Detalle de Obra
+
+  p
+    strong ID:
+    | #{obra.id}
+
+  p
+    strong Nombre:
+    | #{obra.nombre}
+
+  p
+    strong Director:
+    | #{obra.director}
+
+  p
+    strong Presupuesto:
+    | #{obra.presupuestoTotal}
+
+  br
+  a(href="/obras/vista") Volver

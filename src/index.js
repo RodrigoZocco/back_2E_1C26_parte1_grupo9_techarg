@@ -6,21 +6,23 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
+const obrasRoutes = require("./routes/obrasRoutes");
+const gastosRoutes = require("./routes/gastosRoutes");
+
 app.use(express.json());
 // Esto para leer datos desde los forms HTML con method=POST (como mostro el profesor en clase)
 app.use(express.urlencoded({ extended: true }));
 
-// Config de PUG 
+// Config de PUG
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
 // Servir archivos estáticos desde la carpeta public como CSS o imágenes. (No lo usamos, pero para que este a futuro)
 app.use(express.static(path.join(__dirname, "public")));
 
-
-app.get('/', function (req, res) {
-  res.send('Probandolo y funciona');
-});
+// rutas
+app.use("/obras", obrasRoutes);
+app.use("/gastos", gastosRoutes);
 
 app.use((req, res) => {
   res.status(404).send("Ruta no encontrada");
