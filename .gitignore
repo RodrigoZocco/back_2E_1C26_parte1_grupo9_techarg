@@ -1,0 +1,2 @@
+/node_modules
+# .env // Hacemos la excepcion solo por esta vez (no hay datos sensibles)
