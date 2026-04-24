@@ -1,0 +1,22 @@
+extends layout.pug 
+
+block content
+    h2 Módulos Principales
+    p Seleccione la acción que desea realizar:
+
+    div
+        h3 Gestión de Obras
+        ul
+            li
+                a(href="/obras/vista") Obras
+            li 
+                a(href="/obras/nuevo") Nueva obra
+            
+            
+    div
+        h3 Gestión de Gastos
+        ul 
+            li 
+                a(href='/gastos/nuevo') Nuevo Gasto
+            li 
+                a(href='/gastos/vista') Listado de Gastos

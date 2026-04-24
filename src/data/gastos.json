@@ -1,3 +1,18 @@
 [
-  
+  {
+    "id": 1777066379254,
+    "obraId": 1777066317981,
+    "concepto": "Compra ladrillo hueco x 10000",
+    "monto": 25000,
+    "fecha": "2026-04-24",
+    "medioPago": "Transferencia"
+  },
+  {
+    "id": 1777067303613,
+    "obraId": 1777066317981,
+    "concepto": "Compra bolsa cemento 50kg por 100",
+    "monto": 10000,
+    "fecha": "2026-04-24",
+    "medioPago": "Transferencia"
+  }
 ]

@@ -8,7 +8,8 @@ block content
       th ID
       th Nombre
       th Director
-      th Presupuesto
+      th Ubicación
+      th Presupuesto Inicial
       th Acciones
 
     each obra in obras
@@ -16,6 +17,7 @@ block content
         td= obra.id
         td= obra.nombre
         td= obra.director
+        td= obra.ubicacion
         td= obra.presupuestoTotal
         td
           a(href=`/obras/${obra.id}/vista`) Ver

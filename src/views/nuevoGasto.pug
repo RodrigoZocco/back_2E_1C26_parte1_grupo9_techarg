@@ -5,36 +5,43 @@ block content
 
   form(method="POST", action="/gastos")
 
-    label Obra ID:
-    input(type="number", name="obraId")
+    label Obra: 
+    select(name="obraId" required)
+      option(value="") Seleccionar obra
+
+      each obraItem in obras
+        if obraId && obraItem.id == obraId
+          option(value=obraItem.id selected) #{obraItem.nombre}
+        else
+          option(value=obraItem.id) #{obraItem.nombre}
 
     br
     br
 
-    label Concepto:
+    label Concepto: 
     input(type="text", name="concepto")
 
     br
     br
 
-    label Monto:
-    input(type="number", name="monto")
+    label Monto: 
+    input(type="number", name="monto" required)
 
     br
     br
 
-    label Fecha:
-    input(type="date", name="fecha")
+    label Fecha: 
+    input(type="date", name="fecha" required)
 
     br
     br
 
-    label Medio de pago:
+    label Medio de pago: 
     select(name="medioPago")
-      option(value="cheque") Cheque
-      option(value="transferencia") Transferencia
+      option(value="Cheque") Cheque
+      option(value="Transferencia") Transferencia
 
     br
     br
 
-    button(type="submit") Guardar
+    button(type="submit") Guardar Gasto

@@ -24,6 +24,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/obras", obrasRoutes);
 app.use("/gastos", gastosRoutes);
 
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
 app.use((req, res) => {
   res.status(404).send("Ruta no encontrada");
 });

@@ -24,19 +24,54 @@ const crearGasto = (req, res) => {
     return res.status(400).json({ error: "Faltan datos" });
   }
 
+  const montoNumero = Number(monto);
+
+  if (isNaN(montoNumero) || montoNumero <= 0) {
+    return res.status(400).json({ error: "Monto inválido" });
+  }
+  //Leemos los gastos
   const gastos = leerGastos();
 
+  // leemos las obras guardadas
+  const rutaObras = path.join(__dirname, "../data/obras.json");
+  const obras = JSON.parse(fs.readFileSync(rutaObras, "utf-8"));
+
+  // buscamos la obra en cuestion
+  const obra = obras.find(o => o.id == obraId);
+
+  if (!obra) {
+    return res.status(400).json({ error: "La obra no existe" });
+  }
+  
+  // Validamos el presupuesto
+  if (obra.presupuestoDisponible < montoNumero) {
+    return res.status(400).json({ error: "El gasto supera el presupuesto disponible" });
+  }
+
+  // creamos el nuevo gasto
   const nuevoGasto = new Gasto(
     Date.now(),
     Number(obraId),
     concepto,
-    Number(monto),
+    montoNumero,
     fecha,
     medioPago
   );
 
+  // Se guarda el gasto
   gastos.push(nuevoGasto);
   guardarGastos(gastos);
+
+  // se descuenta el monto del disponible
+  obra.presupuestoDisponible -= montoNumero;
+
+  // se guarda la obra actualizada
+  fs.writeFileSync(rutaObras, JSON.stringify(obras, null, 2));
+
+  if (req.headers.accept && req.headers.accept.includes("text/html")) {
+    //return res.redirect("/gastos/vista");
+    return res.redirect(`/obras/${obraId}/vista`);
+  }
 
   res.status(201).json(nuevoGasto);
 };
@@ -47,7 +82,12 @@ const vistaGastos = (req, res) => {
 };
 
 const vistaNuevoGasto = (req, res) => {
-  res.render("nuevoGasto");
+  const obraId = req.query.obraId || "";
+
+  const rutaObras = path.join(__dirname, "../data/obras.json");
+  const obras = JSON.parse(fs.readFileSync(rutaObras, "utf-8"));
+
+  res.render("nuevoGasto", { obraId, obras });
 };
 
 module.exports = {

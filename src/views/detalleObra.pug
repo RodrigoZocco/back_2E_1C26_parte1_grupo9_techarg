@@ -4,20 +4,46 @@ block content
   h2 Detalle de Obra
 
   p
-    strong ID:
+    strong ID: 
     | #{obra.id}
 
   p
-    strong Nombre:
+    strong Nombre: 
     | #{obra.nombre}
 
   p
-    strong Director:
+    strong Director: 
     | #{obra.director}
 
   p
-    strong Presupuesto:
+    strong Ubicación: 
+    | #{obra.ubicacion}
+
+  p
+    strong Fecha alta de Proyecto: 
+    | #{obra.fechaAlta}
+
+  p
+    strong Fecha estimada de finalización: 
+    | #{obra.fechaEstimadaFin}
+
+  p
+    strong Presupuesto Total: $
     | #{obra.presupuestoTotal}
 
+  p
+    strong Presupuesto Disponible: $
+    | #{obra.presupuestoDisponible}
+
+  p
+    strong Presupuesto Gastado: $
+    | #{presupGastado}
+
   br
-  a(href="/obras/vista") Volver
+  a(href="/obras/vista") 
+    button Volver
+
+  br
+  br
+  a(href=`/gastos/nuevo?obraId=${obra.id}`) 
+    button Cargar Gasto para esta Obra

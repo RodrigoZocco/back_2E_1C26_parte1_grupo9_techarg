@@ -29,9 +29,9 @@ const obtenerObra = (req, res) => {
 };
 
 const crearObra = (req, res) => {
-  const { nombre, director, presupuestoTotal } = req.body;
+  const { nombre, director, ubicacion, fechaEstimadaFin, presupuestoTotal } = req.body;
 
-  if (!nombre || !director || !presupuestoTotal) {
+  if (!nombre || !director || !ubicacion || !fechaEstimadaFin || !presupuestoTotal) {
     return res.status(400).json({ error: "Faltan datos" });
   }
 
@@ -41,11 +41,17 @@ const crearObra = (req, res) => {
     Date.now(),
     nombre,
     director,
+    ubicacion,
+    fechaEstimadaFin,
     Number(presupuestoTotal)
   );
 
   obras.push(nuevaObra);
   guardarObras(obras);
+
+  if (req.headers.accept && req.headers.accept.includes("text/html")) {
+    return res.redirect("/obras/vista");
+  }
 
   res.status(201).json(nuevaObra);
 };
@@ -63,7 +69,11 @@ const vistaDetalleObra = (req, res) => {
     return res.status(404).send("Obra no encontrada");
   }
 
-  res.render("detalleObra", { obra });
+  const pTotal = obra.presupuestoTotal;
+  const pDisponible = obra.presupuestoDisponible;
+  const presupGastado = pTotal - pDisponible;
+
+  res.render("detalleObra", { obra, presupGastado });
 };
 
 module.exports = {

@@ -4,19 +4,27 @@ html(lang="es")
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Sistema Obras
+    style.
+      a:link, 
+      a:visited {
+        color: blue;
+        text-decoration: none; 
+      }
+            
+      a:hover {
+        color: darkblue;
+        text-decoration: underline;
+      }
   body
     header
-      h1 Gestión de Obras
-      nav
-        a(href="/obras/vista") Obras
-        |  |
-        a(href="/obras/nuevo") Nueva obra
+      h1 Cimientos Sólidos S.A. - TechArg 
+        nav
+          ul
+            li
+              a(href='/') Inicio
 
-    hr
-
-    block content
-
-    hr
+    main
+      block content 
 
     footer
-      p Sistema Node.js con JSON
+      p &copy; #{new Date().getFullYear()} Sistema Node.js con JSON - TechArg
