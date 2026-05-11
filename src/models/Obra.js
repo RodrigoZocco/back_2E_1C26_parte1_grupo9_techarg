@@ -1,15 +1,38 @@
-class Obra {
-  constructor(id, nombre, director, ubicacion, fechaEstimadaFin, presupuestoTotal) {
-    this.id = id;
-    this.nombre = nombre;
-    this.director = director;
-    this.ubicacion = ubicacion;
-    this.fechaAlta = new Date().toISOString().split('T')[0];
-    this.fechaEstimadaFin = fechaEstimadaFin;
-    this.presupuestoTotal = presupuestoTotal;
-    this.presupuestoDisponible = presupuestoTotal;
-    this.estado = "Activa";
-  }
-}
+import { Schema, model } from "mongoose";
 
-module.exports = Obra;
+const obraSchema = new Schema({
+  nombre: {
+    type: String,
+    required: true
+  },
+  director: {
+    type: String,
+    required: true
+  },
+  ubicacion: {
+    type: String,
+    required: true
+  },
+  fechaAlta: {
+    type: Date,
+    default: Date.now
+  },
+  fechaEstimadaFin: {
+    type: Date
+  },
+  presupuestoTotal: {
+    type: Number,
+    required: true
+  },
+  estado: {
+    type: String,
+    enum: ['Activa', 'Pausada', 'Finalizada', 'Cancelada'],
+    default: 'Activa'
+  }
+});
+
+export default model('Obra', obraSchema);
+    
+    
+    
+    //this.presupuestoDisponible = presupuestoTotal;

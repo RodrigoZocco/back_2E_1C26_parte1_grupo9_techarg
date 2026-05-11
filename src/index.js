@@ -1,10 +1,21 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import obrasRoutes from "./routes/obrasRoutes.js";
+import gastosRoutes from "./routes/gastosRoutes.js";
+import conectarDB from "./config/db.js";
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
+
+conectarDB();
 
 const obrasRoutes = require("./routes/obrasRoutes");
 const gastosRoutes = require("./routes/gastosRoutes");
@@ -33,5 +44,5 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Servidor corriendo en puerto " + PORT);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

@@ -1,12 +1,32 @@
-class Gasto {
-  constructor(id, obraId, concepto, monto, fecha, medioPago) {
-    this.id = id;
-    this.obraId = obraId;
-    this.concepto = concepto;
-    this.monto = monto;
-    this.fecha = fecha;
-    this.medioPago = medioPago; // Esto es "cheque" o "transferencia", como indica el caso nuestro (Cimientos Sólidos S.A)
-  }
-}
+import { Schema, model } from "mongoose";
 
-module.exports = Gasto;
+const gastoSchema = new Schema({
+  obraId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Obra',
+    required: true
+  },
+  concepto: {
+    type: String,
+    required: true
+  },
+  monto: {
+    type: Number,
+    required: true
+  },
+  fecha: {
+    type: Date,
+    default: Date.now
+  },
+  medioPago: {
+    type: String,
+    enum: ['Cheque', 'Transferencia', 'Efectivo'],
+    required: true
+  },
+  categoria: {
+    type: String,
+    required: true
+  }
+});
+
+export default model('Gasto', gastoSchema);

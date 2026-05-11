@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 
 const router = express.Router();
 
@@ -15,4 +15,4 @@ router.get("/nuevo", vistaNuevoGasto);
 router.get("/", listarGastos);
 router.post("/", crearGasto);
 
-module.exports = router;
+export default router;

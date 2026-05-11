@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 
 const router = express.Router();
 
@@ -19,4 +19,4 @@ router.get("/vista", vistaObras);
 router.get("/:id", obtenerObra);
 router.get("/:id/vista", vistaDetalleObra);
 
-module.exports = router;
+export default router;
