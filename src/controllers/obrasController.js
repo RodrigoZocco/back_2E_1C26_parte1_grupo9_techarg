@@ -25,13 +25,16 @@ const crearObra = async (req, res) => {
   const { nombre, director, ubicacion, fechaEstimadaFin, presupuestoTotal } =
     req.body;
 
+  const presupuesto = Number(presupuestoTotal);
+
   try {
     const nuevaObra = new Obra({
       nombre,
       director,
       ubicacion,
       fechaEstimadaFin,
-      presupuestoTotal: Number(presupuestoTotal),
+      presupuestoTotal: presupuesto,
+      presupuestoDisponible: presupuesto,
     });
 
     await nuevaObra.save();

@@ -4,7 +4,7 @@ import fs from "fs/promises";
 
 const listarGastos = async (req, res) => {
   try {
-    const gastos = await Gasto.find().populate("idObra");
+    const gastos = await Gasto.find().populate("obraId");
     res.json(gastos);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener gastos" });
@@ -32,7 +32,6 @@ const crearGasto = async (req, res) => {
     }
 
     // 2. Validamos el presupuesto disponible
-    const disponible = obra.p;
     if (obra.presupuestoDisponible < montoNumero) {
       return res
         .status(400)
@@ -40,23 +39,18 @@ const crearGasto = async (req, res) => {
     }
 
     // creamos el nuevo gasto
-    const nuevoGasto = new Gasto(
-      Date.now(),
-      Number(obraId),
+    const nuevoGasto = new Gasto({
+      obraId,
       concepto,
-      montoNumero,
+      monto: montoNumero,
       fecha,
-      medioPago
-    );
+      medioPago,
+      categoria: "gasto de obra",
+    });
 
-    // Se guarda el gasto
-    gastos.push(nuevoGasto);
-    guardarGastos(gastos);
-
-    // se descuenta el monto del disponible
+    await nuevoGasto.save();
     obra.presupuestoDisponible -= montoNumero;
-
-    // se guarda la obra actualizada
+    await obra.save();
 
     if (req.headers.accept && req.headers.accept.includes("text/html")) {
       return res.redirect(`/obras/${obraId}/vista`);
@@ -70,18 +64,28 @@ const crearGasto = async (req, res) => {
   }
 };
 
-const vistaGastos = (req, res) => {
-  const gastos = leerGastos();
-  res.render("gastos", { gastos });
+const vistaGastos = async (req, res) => {
+  try {
+    const gastos = await Gasto.find().populate("obraId");
+
+    res.render("gastos", { gastos });
+  } catch (error) {
+    res.status(500).send("Error al cargar gastos");
+  }
 };
 
-const vistaNuevoGasto = (req, res) => {
-  const obraId = req.query.obraId || "";
+const vistaNuevoGasto = async (req, res) => {
+  try {
+    const obraId = req.query.obraId || "";
+    const obras = await Obra.find();
 
-  const rutaObras = path.join(__dirname, "../data/obras.json");
-  const obras = JSON.parse(fs.readFileSync(rutaObras, "utf-8"));
-
-  res.render("nuevoGasto", { obraId, obras });
+    res.render("nuevoGasto", {
+      obraId,
+      obras,
+    });
+  } catch (error) {
+    res.status(500).send("Error al cargar formulario");
+  }
 };
 
 export { listarGastos, crearGasto, vistaGastos, vistaNuevoGasto };
