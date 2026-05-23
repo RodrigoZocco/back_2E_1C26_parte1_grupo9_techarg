@@ -24,6 +24,10 @@ const obraSchema = new Schema({
     type: Number,
     required: true,
   },
+  presupuestoDisponible: {
+    type: Number,
+    required: true,
+  },
   estado: {
     type: String,
     enum: ["Activa", "Pausada", "Finalizada", "Cancelada"],
