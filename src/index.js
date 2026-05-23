@@ -2,20 +2,17 @@ import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+dotenv.config();
 
 import obrasRoutes from "./routes/obrasRoutes.js";
 import gastosRoutes from "./routes/gastosRoutes.js";
 import conectarDB from "./config/db.js";
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-conectarDB();
 
 app.use(express.json());
 // Esto para leer datos desde los forms HTML con method=POST (como mostro el profesor en clase)
@@ -40,6 +37,17 @@ app.use((req, res) => {
   res.status(404).send("Ruta no encontrada");
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+const iniciarServidor = async () => {
+  try {
+    console.log("Iniciando el servidor...");
+    await conectarDB();
+
+    app.listen(PORT, () => {
+      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+iniciarServidor();
