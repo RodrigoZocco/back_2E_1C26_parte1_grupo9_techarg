@@ -2,12 +2,12 @@ import express from "express";
 
 const router = express.Router();
 
-const {
+import {
   listarGastos,
   crearGasto,
   vistaGastos,
   vistaNuevoGasto,
-} = require("../controllers/gastosController");
+} from "../controllers/gastosController.js";
 
 router.get("/vista", vistaGastos);
 router.get("/nuevo", vistaNuevoGasto);

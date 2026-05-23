@@ -2,22 +2,16 @@ import Gasto from "../models/Gasto.js";
 import Obra from "../models/Obra.js";
 import fs from "fs/promises";
 
-const path = require("path");
-const rutaArchivo = path.join(__dirname, "../data/gastos.json");
-
 const listarGastos = async (req, res) => {
   try {
-    const gastos = await Gasto.find().populate('idObra');
+    const gastos = await Gasto.find().populate("idObra");
     res.json(gastos);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener gastos" });
   }
 };
 
-
-
 const crearGasto = async (req, res) => {
-
   try {
     const { obraId, concepto, monto, fecha, medioPago } = req.body;
 
@@ -36,11 +30,13 @@ const crearGasto = async (req, res) => {
     if (!obra) {
       return res.status(404).json({ error: "La obra no existe" });
     }
-  
+
     // 2. Validamos el presupuesto disponible
-    const disponible = obra.p
+    const disponible = obra.p;
     if (obra.presupuestoDisponible < montoNumero) {
-      return res.status(400).json({ error: "El gasto supera el presupuesto disponible" });
+      return res
+        .status(400)
+        .json({ error: "El gasto supera el presupuesto disponible" });
     }
 
     // creamos el nuevo gasto
@@ -61,7 +57,6 @@ const crearGasto = async (req, res) => {
     obra.presupuestoDisponible -= montoNumero;
 
     // se guarda la obra actualizada
-    
 
     if (req.headers.accept && req.headers.accept.includes("text/html")) {
       return res.redirect(`/obras/${obraId}/vista`);
@@ -69,7 +64,9 @@ const crearGasto = async (req, res) => {
 
     res.status(201).json(nuevoGasto);
   } catch (error) {
-    res.status(400).json({ error: "Error al registrar el gasto: " + error.message });
+    res
+      .status(400)
+      .json({ error: "Error al registrar el gasto: " + error.message });
   }
 };
 
@@ -86,3 +83,5 @@ const vistaNuevoGasto = (req, res) => {
 
   res.render("nuevoGasto", { obraId, obras });
 };
+
+export { listarGastos, crearGasto, vistaGastos, vistaNuevoGasto };

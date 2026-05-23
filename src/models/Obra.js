@@ -3,36 +3,34 @@ import { Schema, model } from "mongoose";
 const obraSchema = new Schema({
   nombre: {
     type: String,
-    required: true
+    required: true,
   },
   director: {
     type: String,
-    required: true
+    required: true,
   },
   ubicacion: {
     type: String,
-    required: true
+    required: true,
   },
   fechaAlta: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   fechaEstimadaFin: {
-    type: Date
+    type: Date,
   },
   presupuestoTotal: {
     type: Number,
-    required: true
+    required: true,
   },
   estado: {
     type: String,
-    enum: ['Activa', 'Pausada', 'Finalizada', 'Cancelada'],
-    default: 'Activa'
-  }
+    enum: ["Activa", "Pausada", "Finalizada", "Cancelada"],
+    default: "Activa",
+  },
 });
 
-export default model('Obra', obraSchema);
-    
-    
-    
-    //this.presupuestoDisponible = presupuestoTotal;
+export default model("Obra", obraSchema);
+
+//this.presupuestoDisponible = presupuestoTotal;

@@ -1,24 +1,21 @@
 import dotenv from "dotenv";
-dotenv.config();
-
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 import obrasRoutes from "./routes/obrasRoutes.js";
 import gastosRoutes from "./routes/gastosRoutes.js";
 import conectarDB from "./config/db.js";
 
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 conectarDB();
-
-const obrasRoutes = require("./routes/obrasRoutes");
-const gastosRoutes = require("./routes/gastosRoutes");
 
 app.use(express.json());
 // Esto para leer datos desde los forms HTML con method=POST (como mostro el profesor en clase)

@@ -1,7 +1,4 @@
 import Obra from "../models/Obra.js";
-import fs from "fs/promises";
-const path = require("path");
-const rutaArchivo = path.join(__dirname, "../data/obras.json");
 
 const listarObras = async (req, res) => {
   try {
@@ -25,7 +22,8 @@ const obtenerObraPorId = async (req, res) => {
 };
 
 const crearObra = async (req, res) => {
-  const { nombre, director, ubicacion, fechaEstimadaFin, presupuestoTotal } = req.body;
+  const { nombre, director, ubicacion, fechaEstimadaFin, presupuestoTotal } =
+    req.body;
 
   try {
     const nuevaObra = new Obra({
@@ -48,7 +46,7 @@ const crearObra = async (req, res) => {
   }
 };
 
-const vistaObras =async (req, res) => {
+const vistaObras = async (req, res) => {
   try {
     const obras = await Obra.find();
     res.render("obras", { obras });
@@ -56,8 +54,6 @@ const vistaObras =async (req, res) => {
     res.status(500).send("Error al cargar la vista");
   }
 };
-
-const 
 
 const vistaDetalleObra = async (req, res) => {
   try {
@@ -82,5 +78,5 @@ export {
   obtenerObraPorId,
   crearObra,
   vistaDetalleObra,
-  vistaObras
+  vistaObras,
 };
