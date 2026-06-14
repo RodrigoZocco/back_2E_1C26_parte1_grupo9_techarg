@@ -1,0 +1,54 @@
+extends layout 
+
+block content 
+    div.row.justify-content-center 
+        div.col-md-8 
+            a.btn.btn-link.text-decoration-none.p-0.mb-3(href="/usuarios/vista") Volver a la lista de Usuarios
+
+            div.card.shadow-sm.border.mb-4 
+                div.card-header.py-3(class=usuarioEditar.activo ? 'bg-dark text-white' : 'bg-secondary text-white')
+                    div.d-flex.justify-content-between.aling-items-center 
+                        div 
+                            h4.mb-0.fw-bold Perfil de: #{usuarioEditar.nombre} 
+                            p.mb-0.small.opacity-75 Gestión de credenciales y roles operativos.
+                        if !usuarioEditar.activo
+                            span.badge.bg-danger.fs-6 CUENTA DESHABILITADA 
+
+                div.card-body.p-4 
+
+                    form(action=`/usuarios/${usuarioEditar._id}/editar` method="POST")
+
+                        div.mb-3 
+                            label.form-label.fw-bold.small Correo Electrónico (No modificable)
+                            input.form-control.bg-light(type="email" value=usuarioEditar.email readonly)
+                            div.form-text.small El email es el identificador único y no se puede alterar.
+
+                        div.mb-3 
+                            label.form-label.fw-bold.small(for="nombre") Nombre Completo 
+                            input.form-control(type="text" id="nombre" name="nombre" value=usuarioEditar.nombre required disabled=!usuarioEditar.activo)
+
+                        div.mb-3 
+                            label.form-label.fw-bold.small(for="rol") Rol Asignado 
+                            select.form-select(id="rol" name="rol" required disabled=!usuarioEditar.activo)
+                                option(value="DirectorObra" selected=(usuarioEditar.rol === 'DirectorObra')) Director de Obra (Gestión de Campo)
+                                option(value="Administrador" selected=(usuarioEditar.rol === 'Administrador')) Administrador (Control Total)
+
+                        if usuarioEditar.activo 
+                            div.d-flex.justify-content-end.gap-2.mt-4 
+                                a.btn.btn-outline-secondary(href="/usuarios/vista") Cancelar 
+                                button.btn.btn-primary.fw-bold(type="submit") Guardar Cambios
+
+                    if usuarioEditar.activo 
+                        hr.my-4
+                        div.p-3.b-light.rounded-3.border-danger-subtle 
+                            h5.fw-bold.text-danger Zona de Peligro 
+                            p.text-muted.small Dar de baja a este usuario revocará de inmediato todas sus credenciales de acceso a las sesiones operativas de la constructora.
+
+                            form(action=`/usuarios/${usuarioEditar._id}/baja` method="POST" onsubmit="return confirm('¿Está absolutamente seguro de dar de baja a este usuario? Esta acción bloqueará su ingreso al sistema de inmediato.');")
+                                button.btn.btn-danger(type="submit") Dar de Baja de Cimientos Sólidos
+
+                    else 
+                        hr.my-4
+                        div.p-3.bg-light.rounded-3.text-center 
+                            p.mb-0.text-muted Este usuario fue dado de baja del sistema el día: 
+                            span.fw-bold.text-danger #{new Date(usuarioEditar.fechaBaja).toLocaleString('es-AR')}

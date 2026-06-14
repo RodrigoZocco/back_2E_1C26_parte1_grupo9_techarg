@@ -68,7 +68,7 @@ const vistaGastos = async (req, res) => {
   try {
     const gastos = await Gasto.find().populate("obraId");
 
-    res.render("gastos", { gastos });
+    res.render("gastos", { gastos, usuario: req.usuario });
   } catch (error) {
     res.status(500).send("Error al cargar gastos");
   }
@@ -82,6 +82,7 @@ const vistaNuevoGasto = async (req, res) => {
     res.render("nuevoGasto", {
       obraId,
       obras,
+      usuario: req.usuario
     });
   } catch (error) {
     res.status(500).send("Error al cargar formulario");

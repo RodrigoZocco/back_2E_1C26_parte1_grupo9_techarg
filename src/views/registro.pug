@@ -1,0 +1,44 @@
+extends layout 
+
+block content 
+    div.row.justify-content-center
+        .col-md-6 
+            a.btn.btn-link.text-decoration-none.mb-3(href="/") Volver al Inicio
+
+        .card.shadow-sm.border 
+            .card-header.bg-dark.text-white.py-3 
+                h4.mb-0.fw-bold Alta de Personal Técnico 
+                p.mb-0.small.text-muted Formulario exclusivo para la administración central.
+
+            .card-body.p-4 
+                if error 
+                    div.alert.alert-danger.py-2.small #{error}
+
+                if exito 
+                    div.alert.alert-success.py-2.small #{exito}
+
+                form(action="/auth/registro" method="POST")
+                    .mb-3 
+                        label.form-label.fw-bold.small(for="nombre") Nombre Completo
+                        input.form-control(type="text" id="nombre" name="nombre" required placeholder="Ej: Ing. Carlos Pérez")
+                        div.form-text.small Nombre y apellido del profesional
+
+                    div.mb-3
+                        label.form-label.fw-bold.small(for="email") Correo Electrónico Corporativo
+                        input.form-control(type="email" id="email" name="email" required placeholder="carlos.perez@cimientos.com")
+                        div.form-text.small Se usará como credencial de acceso unívoca.
+
+                    div.mb-3
+                        label.form-label.fw-bold.small(for="password") Contraseña Inicial
+                        input.form-control(type="password" id="password" name="password" required placeholder="••••••••")
+                        div.form-text.small Mínimo 6 caracteres recomendados.
+
+                    div.mb-3
+                        label.form-label.fw-bold.small(for="rol") Rol Operativo en el Sistema
+                        select.form-select(id="rol" name="rol" required)
+                            option(value="DirectorObra" selected) Director de Obra (Gestión de Campo)
+                            option(value="Administrador") Administrador (Control Total)
+                        div.form-text.small Define el nivel de acceso a las herramientas del Backend.
+
+                    div.d-grid.gap-2.mt-4
+                        button.btn.btn-success(type="submit") Enviar Alta de Usuario

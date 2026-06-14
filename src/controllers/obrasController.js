@@ -1,4 +1,5 @@
 import Obra from "../models/Obra.js";
+import Usuario from "../models/Usuario.js";
 
 const listarObras = async (req, res) => {
   try {
@@ -49,10 +50,23 @@ const crearObra = async (req, res) => {
   }
 };
 
+const vistaNuevaObra = async (req, res) => {
+  try {
+    const directores = await Usuario.find({ rol: "DirectorObra", activo: true });
+
+    res.render("nuevaObra", {
+      directores,
+      usuario: req.usuario
+    });
+  } catch (error) {
+    res.status(500).send("Error al cargar el formulario de alta");
+  }
+}
+
 const vistaObras = async (req, res) => {
   try {
     const obras = await Obra.find();
-    res.render("obras", { obras });
+    res.render("obras", { obras, usuario:req.usuario });
   } catch (error) {
     res.status(500).send("Error al cargar la vista");
   }
@@ -70,7 +84,7 @@ const vistaDetalleObra = async (req, res) => {
     const pDisponible = obra.presupuestoDisponible;
     const presupGastado = pTotal - pDisponible;
 
-    res.render("detalleObra", { obra, presupGastado, pDisponible });
+    res.render("detalleObra", { obra, presupGastado, pDisponible, usuario: req.usuario });
   } catch (error) {
     res.status(500).send("Error al cargar el detalle");
   }
@@ -80,6 +94,7 @@ export {
   listarObras,
   obtenerObraPorId,
   crearObra,
+  vistaNuevaObra,
   vistaDetalleObra,
   vistaObras,
 };

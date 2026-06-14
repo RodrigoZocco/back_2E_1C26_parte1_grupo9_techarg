@@ -1,22 +1,21 @@
 import express from "express";
-
-const router = express.Router();
-
+import { protegerRuta } from "../middlewares/authMiddleware.js";
 import {
   listarObras,
   obtenerObraPorId,
   crearObra,
+  vistaNuevaObra,
   vistaObras,
   vistaDetalleObra,
 } from "../controllers/obrasController.js";
 
+const router = express.Router();
+
 router.get("/", listarObras);
 router.post("/", crearObra);
-router.get("/nuevo", (req, res) => {
-  res.render("nuevaObra");
-});
-router.get("/vista", vistaObras);
+router.get("/nuevo", protegerRuta, vistaNuevaObra);
+router.get("/vista", protegerRuta, vistaObras);
 router.get("/:id", obtenerObraPorId);
-router.get("/:id/vista", vistaDetalleObra);
+router.get("/:id/vista", protegerRuta, vistaDetalleObra);
 
 export default router;

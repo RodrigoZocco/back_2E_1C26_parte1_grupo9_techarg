@@ -6,7 +6,10 @@ dotenv.config();
 
 import obrasRoutes from "./routes/obrasRoutes.js";
 import gastosRoutes from "./routes/gastosRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import usuarioRoutes from "./routes/usuarioRoutes.js";
 import conectarDB from "./config/db.js";
+import { protegerRuta } from "./middlewares/authMiddleware.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,15 +25,17 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
-// Servir archivos estáticos desde la carpeta public como CSS o imágenes. (No lo usamos, pero para que este a futuro)
-app.use(express.static(path.join(__dirname, "public")));
+// Servir archivos estáticos desde la carpeta public como CSS o imágenes.
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 // rutas
+app.use("/auth", authRoutes);
+app.use("/usuarios", usuarioRoutes);
 app.use("/obras", obrasRoutes);
 app.use("/gastos", gastosRoutes);
 
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/", protegerRuta, (req, res) => {
+  res.render("index", { usuario: req.usuario });
 });
 
 app.use((req, res) => {

@@ -1,22 +1,40 @@
-extends layout.pug 
+extends layout
 
 block content
-    h2 Módulos Principales
-    p Seleccione la acción que desea realizar:
+    div.p-5.mb-4.bg-white.rounded.shadow-sm.border
+        div.container-fluid.py-2 
+            h1 Bienvenido, #{usuario.nombre}
+            p.lead Sistema de Gestión Interna - Cimientos Sólidos S.A.
+            hr.my-3
 
-    div
-        h3 Gestión de Obras
-        ul
-            li
-                a(href="/obras/vista") Obras
-            li 
-                a(href="/obras/nuevo") Nueva obra
+        h2.fw-bold.text-dark.mb-3 Módulos Principales
+        p.text-muted Seleccione el módulo al que desea acceder para operar:
+
+        div.row.g-4
+            div.col-md-4 
+                div.card.h-100.shadow-sm
+                    div.card-body.d-flex.flex-column
+                        h5.card-title.fw-bold Módulo de Obras 
+                        p.card-text Control de proyectos activos y presupuestos.
+                        div.d-grid.gap-2.mt-auto
+                            a.btn.btn-primary(href="/obras/vista") Listar Obras
+                            a.btn.btn-outline-primary.btn-sm(href="/obras/nuevo") + Nueva Obra
+
+            div.col-md-4
+                div.card.h-100.shadow-sm
+                    div.card-body.d-flex.flex-column
+                        h5.card-title.fw-bold Registro de Gastos
+                        p.card-text.text-muted Rendición de cuentas de materiales, logística y mano de obra con descuento automático.
+                        div.d-grid.gap-2.mt-auto
+                            a.btn.btn-primary(href="/gastos/vista") Ver Historial de Gastos
+                            a.btn.btn-outline-primary.btn-sm(href="/gastos/nuevo") + Registrar Nuevo Gasto      
             
-            
-    div
-        h3 Gestión de Gastos
-        ul 
-            li 
-                a(href='/gastos/nuevo') Nuevo Gasto
-            li 
-                a(href='/gastos/vista') Listado de Gastos
+            if usuario.rol === 'Administrador'
+                div.col-md-4
+                    div.card.h-100.border-warning.shadow-sm
+                        div.card-header.bg-warning.text-dark.fw-bold Panel de Administración
+                        div.card-body.d-flex.flex-column
+                            p.card-text.text-muted Control total sobre las credenciales del sistema. Gestión de altas, modificaciones y bajas lógicas del personal técnico.
+                            div.d-grid.gap-2.mt-auto
+                                a.btn.btn-warning.fw-bold(href="/usuarios/vista") Ver Lista de Usuarios
+                                a.btn.btn-outline-dark.btn-sm(href="/auth/registro") + Registrar Nuevo Usuario

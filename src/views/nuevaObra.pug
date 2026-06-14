@@ -1,38 +1,54 @@
 extends layout
 
 block content
-  h2 Nueva Obra
+  div.row.justify-content-center 
+    div.col-md-8 
+      a.btn.btn-link.text-decoration-none.mb-3.p-0(href="/obras/vista") Volver a la Lista de Obras
 
-  form(method="POST", action="/obras")
+      div.card.shadow-sm.border 
+        div.card-header.bg-dark.text-white.py-3 
+          h4.mb-0.fw-bold Alta de Proyecto / Obra Nueva
+          p.mb-0.small.text-muted Establezca el presupuesto inicial y el profesional a cargo.
 
-    label Nombre:
-    input(type="text", name="nombre")
+        div.card-body.p-4 
+          if error 
+            div.alert.alert-danger.py-2.small #{error} 
 
-    br
-    br
+          form(action="/obras" method="POST")
 
-    label Director:
-    input(type="text", name="director")
+            div.mb-3 
+              label.form-label.fw-bold.small(for="nombre") Nombre de la Obra 
+              input.form-control(type="text" id="nombre" name="nombre" required placeholder="Ej: Torre San Martín")
+              div.form-text.small Identificador descriptivo del proyecto arquitectónico o civil.
 
-    br
-    br
+            div.row.g-3.mb-3 
+              div.col-md-6 
+                label.form-label.fw-bold.small(for="director") Director de Obra Asignado 
+                select.form-select(id="director" name="director" required)
+                  option(value="" disabled selected) Seleccione un profesional...
+                  each dir in directores
+                    //- Guardamos el ID del usuario como valor, pero mostramos su nombre en pantalla
+                    option(value=dir._id) #{dir.nombre}
+                div.form-text.small Profesional técnico responsable en el campo.
 
-    label Ubicación:
-    input(type="text", name="ubicacion")
+              div.col-md-6 
+                label.form-label.fw-bold.small(for="ubicacion") Ubicación / Dirección 
+                input.form-control(type="text" id="ubicacion" name="ubicacion" required placeholder="Ej: Av. Colón 1234, Mendoza")
+                div.form-text.small Emplazamiento físico oficial del proyecto.
 
-    br
-    br
+            div.row.g-3.mb-3 
+              div.col-md-6 
+                label.form-label.fw-bold.small(for="fechaEstimadaFin") Finalización Estimada
+                input.form-control(type="date" id="fechaEstimadaFin" name="fechaEstimadaFin" required)
+                div.form-text.small Fecha tentativa de entrega del proyecto finalizado.
 
-    label Fecha de Finalización Estimada:
-    input(type="date", name="fechaEstimadaFin")
+              div.col-md-6 
+                label.form-label.fw-bold.small(for="presupuestoTotal") Presupuesto Base Inicial (ARS)
+                div.input-group 
+                  span.input-group-text $
+                  input.form-control(type="number" id="presupuestoTotal" name="presupuestoTotal" min="1" step="0.01" required placeholder="0.00")
+                  div.form-text.small Fondo límite asignado para el descuento de gastos.
 
-    br
-    br
-
-    label Presupuesto:
-    input(type="number", name="presupuestoTotal")
-
-    br
-    br
-
-    button(type="submit") Guardar
+            div.d-flex.justify-content-end.gap-2.mt-4 
+              a.btn.btn-outline-secondary(href="/obras/vista") Cancelar 
+              button.btn.btn-success.fw-bold(type="submit") Registrar e Iniciar Obra

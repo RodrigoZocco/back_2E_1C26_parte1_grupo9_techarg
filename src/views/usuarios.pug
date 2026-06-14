@@ -1,0 +1,53 @@
+extends layout 
+
+block content 
+    .d-flex.justify-content-between.align-items-center.mb-4 
+        div 
+            a.btn.btn-link.text-decoration-none.p-0(href="/") Volver a Inicio 
+            h2.fw-bold.text-dark.mt-2 Nómina de Personal Técnico
+            p.text-muted.small Visualización y gestión de accesos para Cimientos Sólidos S.A 
+        div 
+            a.btn.btn-success.fw-bold(href="/auth/registro") Registrar Nuevo Usuario
+
+    .card.shadow-sm.border 
+        .card-body.p-0 
+            .table-responsive 
+                table.table.table-hover.align-middle.mb-0 
+                    thead.table-dark 
+                        tr 
+                            th(scope="col") Nombre Completo 
+                            th(scope="col") Correo Electrónico 
+                            th(scope="col") Rol 
+                            th(scope="col") Estado 
+                            th(scope="col" .text-center) Acciones
+                    tbody 
+                        if usuarios.length === 0
+                            tr 
+                                td.text-center.py-4.text-muted(colspan="5") No hay usuarios registrados en el sistema 
+                        else 
+                            each usr in usuarios 
+                                tr(class=usr.activo ? '' : 'table-secondary text-muted')
+                                    td 
+                                        if !usr.activo
+                                            del.text-danger #{usr.nombre}
+                                        else 
+                                            span.fw-bold #{usr.nombre}
+
+                                    td #{usr.email} 
+
+                                    td 
+                                        span.badge(class=usr.rol === 'Administrador' ? 'bg-danger' : 'bg-info text-dark') #{usr.rol} 
+
+                                    td 
+                                        if usr.activo 
+                                            span.badge.bg-success Activo 
+                                        else 
+                                            span.badge.bg-secondary Inactivo 
+                                            br
+                                            small.text-danger.style(style="font-size: 0.7rem") Baja: #{new Date(usr.fechaBaja).toLocaleDateString('es-AR')}
+
+                                    td.text-center 
+                                        .d-flex.gap-2.justify-content-center 
+                                            a.btn.btn-outline-primary.btn-sm(href=`/usuarios/${usr._id}/vista`) Ver Detalle
+
+                                            
