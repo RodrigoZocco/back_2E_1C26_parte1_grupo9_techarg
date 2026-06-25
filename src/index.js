@@ -42,6 +42,21 @@ app.use((req, res) => {
   res.status(404).send("Ruta no encontrada");
 });
 
+// Vercel como lo ejecuta de forma serverless reusa esto en cada invocacion
+await conectarDB();
+
+// Exportamos la app, para la estructura serverless de vercel
+export default app;
+
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  });
+}
+
+/*
+// Esto es de la 1º y 2º iteracion
+// No lo usamos mas ya que preparamos el codigo para una estructura serverless en la 3º iteracion
 const iniciarServidor = async () => {
   try {
     console.log("Iniciando el servidor...");
@@ -56,3 +71,4 @@ const iniciarServidor = async () => {
 };
 
 iniciarServidor();
+*/
